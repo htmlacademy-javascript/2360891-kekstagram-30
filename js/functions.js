@@ -1,17 +1,13 @@
-const fitsLength = (text,lengthText) => {
-  if (text.length <= lengthText){
-    return true;
-  }
-  return false;
-};
+const fitsLength = (text,lengthText) => text.length <= lengthText;
+
 
 fitsLength('проверяемая строка', 20);
 fitsLength('проверяемая строка', 18);
 fitsLength('проверяемая строка', 10);
 
-const isPalindrome = (string) => {
-  string = string.toLowerCase().replaceAll(' ', '');
-  return string === string.split('').reverse().join('');
+const isPalindrome = (sequence) => {
+  sequence = sequence.toLowerCase().replaceAll(' ', '');
+  return sequence === sequence.split('').reverse().join('');
 };
 
 isPalindrome('топот'); // true
