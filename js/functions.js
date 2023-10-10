@@ -1,13 +1,13 @@
-const lengthString = (string,symbols) => {
+const fitsLength = (string,symbols) => {
   if (string.length <= symbols){
     return true;
   }
   return false;
 };
 
-lengthString('проверяемая строка', 20);
-lengthString('проверяемая строка', 18);
-lengthString('проверяемая строка', 10);
+fitsLength('проверяемая строка', 20);
+fitsLength('проверяемая строка', 18);
+fitsLength('проверяемая строка', 10);
 
 const checkPalindrome = (string) => {
   string = string.toLowerCase().replaceAll(' ', '');
@@ -25,16 +25,12 @@ checkPalindrome('Лёша на полке клопа нашёл '); // true
 
 const searchNumbers = (data) => {
   const result = [];
-  const numbers = ['0','1','2','3','4','5','6','7','8','9'];
-
   data.toString().split('').forEach((element) => {
-    numbers.forEach((number) => {
-      if (element === number) {
-        result.push(element);
-      }
-    });
+    if (!Number.isNaN(parseInt(element,10))) {
+      result.push(element);
+    }
   });
-  return result.length > 0 ? result.join('') : NaN;
+  return result ? parseInt(result.join(''), 10) : NaN;
 };
 
 searchNumbers('2023 год'); // 2023
