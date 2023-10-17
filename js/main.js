@@ -12,9 +12,9 @@ const getRandomInteger = (min,max) => {
 const getRandomMessage = (messages) => {
   let result = '';
   let count = getRandomInteger(1, 2);
-  while (count){
+  while (count) {
     const message = getRandomItem(messages);
-    if(!result.includes(message)){
+    if (!result.includes(message)) {
       result += message;
       count--;
     }
@@ -34,7 +34,7 @@ const createCommentsData = (itemCount) => {
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-  return new Array(itemCount).fill(1).map((start, index)=>({
+  return new Array(itemCount).fill(1).map((start, index) => ({
     id: start + index,
     avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: getRandomMessage(messages),
@@ -45,7 +45,7 @@ const createCommentsData = (itemCount) => {
 const createPictureData = (itemCount = 25) => {
   const descriptions = ['Описание1', 'Описание2', 'Описание3'];
 
-  return new Array(itemCount).fill(1).map((start, index)=>({
+  return new Array(itemCount).fill(1).map((start, index) => ({
     id: start + index,
     url: `photos/${start + index}.jpg`,
     description: getRandomItem(descriptions),
