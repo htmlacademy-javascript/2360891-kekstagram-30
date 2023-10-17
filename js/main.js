@@ -9,18 +9,19 @@ const getRandomInteger = (min,max) => {
   return Math.round(fraction);
 };
 
-const getRandomMessage = (messagesData) => {
-  let messageCount = getRandomInteger(1, 2);
-  let message = '';
-  while (messageCount){
-    const item = getRandomItem(messagesData);
-    if(!message.includes(item)){
-      message += item;
-      messageCount--;
+const getRandomMessage = (messages) => {
+  let result = '';
+  let count = getRandomInteger(1, 2);
+  while (count){
+    const message = getRandomItem(messages);
+    if(!result.includes(message)){
+      result += message;
+      count--;
     }
   }
-  return message;
+  return result;
 };
+
 
 const createCommentsData = (itemCount) => {
   const usersNames = ['Артем', 'Игорь', 'Анна', 'Дмитрий'];
