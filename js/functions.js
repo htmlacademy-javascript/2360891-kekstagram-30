@@ -16,8 +16,8 @@ isPalindrome('Кекс'); // false
 isPalindrome('Лёша на полке клопа нашёл '); // true
 
 const parseDigits = (data) => {
-  const result = data.toString().split('').filter((element)=> (!Number.isNaN(parseInt(element,10))));
-  return result ? parseInt(result.join(''), 10) : NaN;
+  const result = data.toString().split('').filter((item)=> !Number.isNaN(parseInt(item,10)));
+  return parseInt(result.join(''), 10);
 };
 
 parseDigits('2023 год'); // 2023
