@@ -9,18 +9,21 @@ const getRandomInteger = (min,max) => {
   return Math.round(fraction);
 };
 
-const getRandomMessages = (messagesData)=> {
-  const itemCountMessages = getRandomInteger(1,2);
+const getRandomMessage = (messagesData) => {
+  let messageCount = getRandomInteger(1, 2);
   let message = '';
-  for(let i = 0; i < itemCountMessages; i++){
-    message += getRandomItem(messagesData);
+  while (messageCount){
+    const item = getRandomItem(messagesData);
+    if(!message.includes(item)){
+      message += item;
+      messageCount--;
+    }
   }
   return message;
 };
 
-const createCommentsData = () => {
-  const itemCount = getRandomInteger(0,30);
-  const usersNames = ['Артем', 'Игорь','Анна','Дмитрий'];
+const createCommentsData = (itemCount) => {
+  const usersNames = ['Артем', 'Игорь', 'Анна', 'Дмитрий'];
   const messages = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -30,23 +33,23 @@ const createCommentsData = () => {
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-  return new Array(itemCount).fill(1).map ((start,index)=>({
+  return new Array(itemCount).fill(1).map((start, index)=>({
     id: start + index,
-    avatar: `img/avatar-${getRandomInteger(1,6)}.svg`,
-    message: getRandomMessages(messages),
+    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+    message: getRandomMessage(messages),
     name: getRandomItem(usersNames),
   }));
 };
 
 const createPictureData = (itemCount = 25) => {
-  const descriptions = ['Описание1','Описание2','Описание3'];
+  const descriptions = ['Описание1', 'Описание2', 'Описание3'];
 
-  return new Array(itemCount).fill(1).map((start,index)=>({
+  return new Array(itemCount).fill(1).map((start, index)=>({
     id: start + index,
     url: `photos/${start + index}.jpg`,
     description: getRandomItem(descriptions),
-    likes: getRandomInteger(15,200),
-    comments: createCommentsData(),
+    likes: getRandomInteger(15, 200),
+    comments: createCommentsData(getRandomInteger(0, 30)),
   }));
 };
 
