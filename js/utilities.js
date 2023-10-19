@@ -22,4 +22,4 @@ const getRandomMessage = (messages) => {
   return result;
 };
 
-export{getRandomItem, getRandomInteger, getRandomMessage};
+export {getRandomItem, getRandomInteger, getRandomMessage};

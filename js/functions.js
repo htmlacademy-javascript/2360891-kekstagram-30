@@ -1,4 +1,4 @@
-const fitsLength = (text,lengthText) => text.length <= lengthText;
+const fitsLength = (text,textLength) => text.length <= textLength;
 
 
 fitsLength('проверяемая строка', 20);
