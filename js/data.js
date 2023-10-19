@@ -1,4 +1,4 @@
-import {getRandomItem, getRandomInteger, getRandomMessage } from './util';
+import {getRandomItem, getRandomInteger, getRandomMessage } from './utilities.js';
 
 const createCommentsData = (itemCount) => {
   const usersNames = ['Артем', 'Игорь', 'Анна', 'Дмитрий'];
@@ -31,4 +31,4 @@ const createPictureData = (itemCount = 25) => {
   }));
 };
 
-export{createPictureData};
+export {createPictureData};
