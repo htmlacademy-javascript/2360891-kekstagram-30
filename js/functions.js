@@ -29,3 +29,17 @@ parseDigits(2023); // 2023
 parseDigits(-1); // 1
 parseDigits(1.5); // 15
 
+const convertTime = (time) => {
+  const timeParts = time.split(':');
+  return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+};
+
+const checkDurationMeeting = (startWork, endWork, startMeeting, durationMeeting) => (convertTime(startWork) <= convertTime(startMeeting)) && ((convertTime(startMeeting) + durationMeeting) <= convertTime(endWork));
+
+// console.log(work('08:00', '17:30', '14:00', 90));
+// console.log(work('8:0', '10:0', '8:0', 120));
+// console.log(work('08:00', '14:30', '14:00', 90));
+// console.log(work('14:00', '17:30', '08:0', 90));
+// console.log(work('8:00', '17:30', '08:00', 900));
+
+void(checkDurationMeeting);
