@@ -1,4 +1,4 @@
-const createComment = (dataComments) => dataComments.map((data) => {
+const createComments = (dataComments) => dataComments.map((data) => {
   const {avatar, message, name} = data;
   const item = document.createElement('li');
   item.classList.add('social__comment');
@@ -22,7 +22,7 @@ const createComment = (dataComments) => dataComments.map((data) => {
 
 const renderComments = (dataComments, container) => {
   container.querySelectorAll('.social__comment').forEach((comment) => comment.remove());
-  container.append(...createComment(dataComments));
+  container.append(...createComments(dataComments));
 };
 
 export {renderComments};
