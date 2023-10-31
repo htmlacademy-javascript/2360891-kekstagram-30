@@ -5,48 +5,41 @@ const bigPictureModal = document.querySelector('.big-picture');
 const bigPictureModalButtonClose = bigPictureModal.querySelector('.big-picture__cancel');
 const avatarImage = bigPictureModal.querySelector('img');
 const socialCaption = bigPictureModal.querySelector('.social__caption');
-const commentsLikesCount = bigPictureModal.querySelector('.likes-count');
-const commentsCount = bigPictureModal.querySelector('.social__comment-total-count');
-const commentCount = bigPictureModal.querySelector('.social__comment-count');
-const commentsContainer = bigPictureModal.querySelector('.social__comments');
-const commentsLoaderButton = bigPictureModal.querySelector('.comments-loader');
-
-const closePopup = () => {
-  bigPictureModal.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-};
+const likesCount = bigPictureModal.querySelector('.likes-count');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closePopup();
+    bigPictureModalButtonClose.click();
   }
 };
 
-bigPictureModalButtonClose.addEventListener('click', () => {
+const closePopup = () => {
+  bigPictureModal.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const onClickBigPictureModalButtonClose = () => {
   closePopup();
-});
+};
 
-const openPopup = (properties) => {
-  const {url, description, likes, comments} = properties;
+bigPictureModalButtonClose.addEventListener('click', onClickBigPictureModalButtonClose);
 
+const openPopup = () => {
   bigPictureModal.classList.remove('hidden');
+  bigPictureModal.scroll(0, 0);
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  avatarImage.src = url;
-  socialCaption.textContent = description;
-  commentsLikesCount.textContent = likes;
-  commentsCount.textContent = comments.length;
-
-  //скрывыем то что не работает
-  commentCount.classList.add('hidden');
-  commentsLoaderButton.classList.add('hidden');
-
-  renderComments(comments, commentsContainer);
 };
 
 const renderPopup = (properties) => {
-  openPopup(properties);
+  const {url, description, likes, comments} = properties;
+  openPopup();
+  avatarImage.src = url;
+  socialCaption.textContent = description;
+  likesCount.textContent = likes;
+  renderComments(comments);
 };
 
 export {renderPopup};
