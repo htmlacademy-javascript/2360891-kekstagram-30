@@ -20,11 +20,11 @@ const closePopup = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const onClickBigPictureModalButtonClose = () => {
+const onkBigPictureModalButtonCloseClick = () => {
   closePopup();
 };
 
-bigPictureModalButtonClose.addEventListener('click', onClickBigPictureModalButtonClose);
+bigPictureModalButtonClose.addEventListener('click', onkBigPictureModalButtonCloseClick);
 
 const openPopup = () => {
   bigPictureModal.classList.remove('hidden');
