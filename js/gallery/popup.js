@@ -1,5 +1,5 @@
 import {isEscapeKey} from '../utilities.js';
-import {renderComments} from './comments.js';
+import {renderComments, onLoaderButtonClick} from './comments.js';
 
 const popup = document.querySelector('.big-picture');
 const closeButton = popup.querySelector('.big-picture__cancel');
@@ -15,6 +15,7 @@ const closePopup = () => {
   popup.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  popup.querySelector('.comments-loader').removeEventListener('click', onLoaderButtonClick);
 };
 
 const onkCloseButtonClick = () => {

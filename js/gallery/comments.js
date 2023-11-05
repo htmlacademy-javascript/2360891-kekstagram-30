@@ -16,32 +16,20 @@ const createComments = (dataComments) => dataComments.map((data) => {
 });
 
 const currentCommentsData = [];
-const SLICE_STEP = 5;
 
-const onLoaderButtonClick = (slice) => () => {
-  slice += SLICE_STEP;
-  comments.replaceChildren(...createComments(currentCommentsData).slice(0, slice));
-  showCount.textContent = (currentCommentsData).slice(0, slice).length;
-  if(slice >= currentCommentsData.length) {
-    loaderButton.classList.add('hidden');
-  } else {
-    loaderButton.classList.remove('hidden');
-  }
+const onLoaderButtonClick = () => {
+  comments.append(...createComments(currentCommentsData.splice(0, currentCommentsData.step)));
+  showCount.textContent = comments.childElementCount;
+  loaderButton.classList.toggle('hidden', !currentCommentsData.length);
 };
 
-const renderComments = (commentsData) => {
-  const slice = SLICE_STEP;
+const renderComments = (commentsData, step = 5) => {
   currentCommentsData.splice(0, currentCommentsData.length, ...commentsData);
-  comments.replaceChildren(...createComments(currentCommentsData).slice(0, slice));
+  currentCommentsData.step = step;
+  comments.replaceChildren();
   count.textContent = commentsData.length;
-  if(commentsData.length <= SLICE_STEP){
-    showCount.textContent = commentsData.length;
-    loaderButton.classList.add('hidden');
-  } else {
-    loaderButton.classList.remove('hidden');
-    showCount.textContent = slice;
-  }
-  loaderButton.addEventListener('click', onLoaderButtonClick(slice));
+  loaderButton.addEventListener('click', onLoaderButtonClick);
+  loaderButton.click();
 };
 
-export {renderComments};
+export {renderComments, onLoaderButtonClick};
