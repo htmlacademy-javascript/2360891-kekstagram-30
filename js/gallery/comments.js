@@ -1,8 +1,9 @@
 const container = document.querySelector('.big-picture__social');
 const comments = container.querySelector('.social__comments');
 const template = comments.querySelector('.social__comment');
-const count = container.querySelector('.social__comment-count');
 const loaderButton = container.querySelector('.comments-loader');
+const showCount = container.querySelector('.social__comment-shown-count');
+const count = container.querySelector('.social__comment-total-count');
 
 const createComments = (dataComments) => dataComments.map((data) => {
   const {avatar, message, name} = data;
@@ -14,13 +15,21 @@ const createComments = (dataComments) => dataComments.map((data) => {
   return item;
 });
 
-const renderComments = (dataComments) => {
-  comments.querySelectorAll('.social__comment').forEach((comment) => comment.remove());
-  comments.append(...createComments(dataComments));
-  container.querySelector('.social__comment-count').textContent = dataComments.length;
-  //скрывыем то что не работает
-  count.classList.add('hidden');
-  loaderButton.classList.add('hidden');
+const currentCommentsData = [];
+
+const onLoaderButtonClick = () => {
+  comments.append(...createComments(currentCommentsData.splice(0, currentCommentsData.step)));
+  showCount.textContent = comments.childElementCount;
+  loaderButton.classList.toggle('hidden', !currentCommentsData.length);
 };
 
-export {renderComments};
+const renderComments = (commentsData, step = 5) => {
+  currentCommentsData.splice(0, currentCommentsData.length, ...commentsData);
+  currentCommentsData.step = step;
+  comments.replaceChildren();
+  count.textContent = commentsData.length;
+  loaderButton.addEventListener('click', onLoaderButtonClick);
+  loaderButton.click();
+};
+
+export {renderComments, onLoaderButtonClick};
