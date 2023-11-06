@@ -1,18 +1,31 @@
 import {openPopup} from '../upload/popup.js';
 import {validateForm, resetValidateForm } from './validation.js';
 import {renderScaleControl, onDownScaleButtonClick, onUpScaleButtonClick} from './scale.js';
+import {renderEffect, changeEffectValue} from'./effects.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const downScaleButton = uploadForm.querySelector('.scale__control--smaller');
 const upScaleButton = uploadForm.querySelector('.scale__control--bigger');
+const sliderElement = uploadForm.querySelector('.effect-level__slider');
+const valueEffect = uploadForm.querySelector('.effect-level__value');
+
+sliderElement.noUiSlider.on('update', () => {
+  valueEffect.value = sliderElement.noUiSlider.get();
+  changeEffectValue(valueEffect.value);
+});
 
 renderScaleControl();
+renderEffect();
 downScaleButton.addEventListener('click', onDownScaleButtonClick);
 upScaleButton.addEventListener('click', onUpScaleButtonClick);
+
 
 uploadForm.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'filename': openPopup();
+      break;
+    case 'effect': renderEffect(event.target.id);
+      break;
   }
 });
 
@@ -25,5 +38,3 @@ uploadForm.addEventListener('submit', (event) => {
 uploadForm.addEventListener('reset', () => {
   resetValidateForm();
 });
-
-

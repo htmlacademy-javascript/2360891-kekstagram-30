@@ -1,0 +1,141 @@
+import '../../vendor/nouislider/nouislider.js';
+import '../../vendor/nouislider/nouislider.css';
+
+const uploadForm = document.querySelector('.img-upload__form');
+const containerSlider = uploadForm.querySelector('.img-upload__effect-level');
+const sliderElement = uploadForm.querySelector('.effect-level__slider');
+const image = uploadForm.querySelector('.img-upload__preview');
+
+let filter = 'none';
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 1,
+  },
+  start: 1,
+  step: 0.1,
+  connect: 'lower',
+});
+
+const changeEffectValue = (value) => {
+  containerSlider.classList.remove('hidden');
+  switch (filter) {
+    case 'invert': image.style.filter = `${filter}(${value}%)`;
+      break;
+    case 'blur' : image.style.filter = `${filter}(${value}px)`;
+      break;
+    default: image.style.filter = `${filter}(${value})`;
+  }
+};
+
+
+const noEffect = () => {
+  containerSlider.classList.add('hidden');
+  image.style.filter = '';
+};
+
+const chromeEffect = () => {
+  filter = 'grayscale';
+  containerSlider.classList.remove('hidden');
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 0,
+      max: 1
+    },
+    start: 1,
+    step: 0.1,
+    connect: 'lower',
+  });
+  changeEffectValue();
+};
+
+const sepiaEffect = () => {
+  filter = 'sepia';
+  containerSlider.classList.remove('hidden');
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 0,
+      max: 1
+    },
+    start: 1,
+    step: 0.1,
+    connect: 'lower',
+  });
+  changeEffectValue();
+};
+
+const marvinEffect = () => {
+  containerSlider.classList.remove('hidden');
+  filter = 'invert';
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 0,
+      max: 100
+    },
+    start: 100,
+    step: 1,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        if (Number(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(0);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
+  });
+  changeEffectValue();
+};
+
+const phobosEffects = () => {
+  containerSlider.classList.remove('hidden');
+  filter = 'blur';
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 0,
+      max: 3
+    },
+    start: 3,
+    step: 0.1,
+    connect: 'lower',
+  });
+  changeEffectValue();
+};
+
+const heatEffects = () => {
+  containerSlider.classList.remove('hidden');
+  filter = 'brightness';
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: 1,
+      max: 3
+    },
+    start: 3,
+    step: 0.1,
+    connect: 'lower',
+  });
+  changeEffectValue();
+};
+
+
+const renderEffect = (effect = 'effect-none') => {
+  switch (effect) {
+    case 'effect-none': noEffect();
+      break;
+    case 'effect-chrome': chromeEffect();
+      break;
+    case 'effect-sepia': sepiaEffect();
+      break;
+    case 'effect-marvin':marvinEffect();
+      break;
+    case 'effect-phobos': phobosEffects();
+      break;
+    case 'effect-heat': heatEffects();
+  }
+};
+
+export {renderEffect, changeEffectValue};

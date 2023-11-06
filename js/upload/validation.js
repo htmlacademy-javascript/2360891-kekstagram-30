@@ -36,12 +36,8 @@ pristine.addValidator(uploadForm.description, (text) => {
   return text.length < maxTextLength;
 }, 'слишком длинное описание', 1, true);
 
-const validateForm = () => {
-  pristine.validate();
-};
+const validateForm = () => pristine.validate();
 
-const resetValidateForm = () => {
-  pristine.reset();
-};
+const resetValidateForm = () => pristine.reset();
 
 export {validateForm, resetValidateForm};

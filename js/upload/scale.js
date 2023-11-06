@@ -1,14 +1,13 @@
 const uploadForm = document.querySelector('.img-upload__form');
 const scaleControl = uploadForm.querySelector('.scale__control--value');
-const sizeImage = uploadForm.querySelector('.img-upload__preview');
+const image = uploadForm.querySelector('.img-upload__preview');
 
 let scale = 100;
 const SCALE_STEP = 25;
 
-
 const renderScaleControl = () => {
   scaleControl.value = `${scale}%`;
-  sizeImage.style.transform = `scale(${scale / 100})`;
+  image.style.transform = `scale(${scale / 100})`;
 };
 
 const onDownScaleButtonClick = () => {
