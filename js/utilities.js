@@ -1,5 +1,3 @@
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
 const getRandomItem = (items) => {
   const fraction = items.length * Math.random();
   const index = Math.floor(fraction);
@@ -24,4 +22,4 @@ const getRandomMessage = (messages) => {
   return result;
 };
 
-export {getRandomItem, getRandomInteger, getRandomMessage,isEscapeKey};
+export {getRandomItem, getRandomInteger, getRandomMessage};
