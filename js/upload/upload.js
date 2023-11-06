@@ -1,14 +1,22 @@
-import {renderPopup} from '../upload/popup.js';
+import {openPopup} from '../upload/popup.js';
+import { validateForm, resetValidateForm } from './validation.js';
 
-const uploadButton = document.querySelector('.img-upload__input');
+const uploadForm = document.querySelector('.img-upload__form');
 
-const onUploadButtonClick = () => {
-  renderPopup();
-};
+uploadForm.addEventListener('change', (event) => {
+  switch (event.target.name) {
+    case 'filename': openPopup();
+  }
+});
 
-const renderUpload = () => {
-  uploadButton.addEventListener('change', onUploadButtonClick);
-};
+uploadForm.addEventListener('submit', (event) => {
+  if (!validateForm()){
+    event.preventDefault();
+  }
+});
+
+uploadForm.addEventListener('reset', () => {
+  resetValidateForm();
+});
 
 
-export {renderUpload};

@@ -1,11 +1,10 @@
-import {isEscapeKey} from '../utilities.js';
 import {renderComments, onLoaderButtonClick} from './comments.js';
 
 const popup = document.querySelector('.big-picture');
 const closeButton = popup.querySelector('.big-picture__cancel');
 
 const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
+  if (event.key.startsWith('Esc')) {
     evt.preventDefault();
     closeButton.click();
   }

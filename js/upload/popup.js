@@ -1,13 +1,10 @@
-import {isEscapeKey} from '../utilities.js';
-import {validateForm} from '../upload/validation.js';
-
 const popup = document.querySelector('.img-upload__overlay');
-const closeButton = document.querySelector('.img-upload__cancel');
-const uploadForm = document.querySelector('.img-upload__form');
+const closeButton = popup.querySelector('.img-upload__cancel');
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
+
+const onDocumentKeydown = (event) => {
+  if (event.key.startsWith('Esc') && (!event.target.type?.startsWith('text'))) {
+    event.preventDefault();
     closeButton.click();
   }
 };
@@ -25,19 +22,10 @@ const closePopup = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const onkCloseButtonClick = () => {
+const onCloseButtonClick = () => {
   closePopup();
 };
 
-closeButton.addEventListener('click', onkCloseButtonClick);
+closeButton.addEventListener('click', onCloseButtonClick);
 
-const renderPopup = () => {
-  openPopup();
-};
-
-uploadForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  validateForm();
-});
-
-export {renderPopup};
+export {openPopup, closePopup};
