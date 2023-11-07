@@ -37,7 +37,6 @@ const noEffect = () => {
 
 const chromeEffect = () => {
   filter = 'grayscale';
-  containerSlider.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: 0,
@@ -47,12 +46,10 @@ const chromeEffect = () => {
     step: 0.1,
     connect: 'lower',
   });
-  changeEffectValue();
 };
 
 const sepiaEffect = () => {
   filter = 'sepia';
-  containerSlider.classList.remove('hidden');
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: 0,
@@ -62,11 +59,9 @@ const sepiaEffect = () => {
     step: 0.1,
     connect: 'lower',
   });
-  changeEffectValue();
 };
 
 const marvinEffect = () => {
-  containerSlider.classList.remove('hidden');
   filter = 'invert';
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -88,11 +83,9 @@ const marvinEffect = () => {
       },
     },
   });
-  changeEffectValue();
 };
 
 const phobosEffects = () => {
-  containerSlider.classList.remove('hidden');
   filter = 'blur';
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -103,11 +96,9 @@ const phobosEffects = () => {
     step: 0.1,
     connect: 'lower',
   });
-  changeEffectValue();
 };
 
 const heatEffects = () => {
-  containerSlider.classList.remove('hidden');
   filter = 'brightness';
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -118,7 +109,6 @@ const heatEffects = () => {
     step: 0.1,
     connect: 'lower',
   });
-  changeEffectValue();
 };
 
 
