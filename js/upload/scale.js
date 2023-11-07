@@ -1,13 +1,14 @@
 const uploadForm = document.querySelector('.img-upload__form');
 const scaleControl = uploadForm.querySelector('.scale__control--value');
-const image = uploadForm.querySelector('.img-upload__preview');
+const downScaleButton = uploadForm.querySelector('.scale__control--smaller');
+const upScaleButton = uploadForm.querySelector('.scale__control--bigger');
 
 let scale = 100;
 const SCALE_STEP = 25;
 
 const renderScaleControl = () => {
   scaleControl.value = `${scale}%`;
-  image.style.transform = `scale(${scale / 100})`;
+  scaleControl.dispatchEvent(new Event('change', {bubbles: true}));
 };
 
 const onDownScaleButtonClick = () => {
@@ -24,4 +25,9 @@ const onUpScaleButtonClick = () => {
   renderScaleControl();
 };
 
-export {renderScaleControl, onDownScaleButtonClick, onUpScaleButtonClick};
+const getScaleValue = () => scale;
+
+downScaleButton.addEventListener('click', onDownScaleButtonClick);
+upScaleButton.addEventListener('click', onUpScaleButtonClick);
+
+export {getScaleValue};
