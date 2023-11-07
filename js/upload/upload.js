@@ -7,11 +7,9 @@ const uploadForm = document.querySelector('.img-upload__form');
 const downScaleButton = uploadForm.querySelector('.scale__control--smaller');
 const upScaleButton = uploadForm.querySelector('.scale__control--bigger');
 const sliderElement = uploadForm.querySelector('.effect-level__slider');
-const valueEffect = uploadForm.querySelector('.effect-level__value');
 
 sliderElement.noUiSlider.on('update', () => {
-  valueEffect.value = sliderElement.noUiSlider.get();
-  changeEffectValue(valueEffect.value);
+  changeEffectValue();
 });
 
 renderScaleControl();

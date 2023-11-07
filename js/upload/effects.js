@@ -5,6 +5,7 @@ const uploadForm = document.querySelector('.img-upload__form');
 const containerSlider = uploadForm.querySelector('.img-upload__effect-level');
 const sliderElement = uploadForm.querySelector('.effect-level__slider');
 const image = uploadForm.querySelector('.img-upload__preview');
+const valueEffect = uploadForm.querySelector('.effect-level__value');
 
 let filter = 'none';
 
@@ -18,17 +19,17 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-const changeEffectValue = (value) => {
+const changeEffectValue = () => {
   containerSlider.classList.remove('hidden');
+  valueEffect.value = sliderElement.noUiSlider.get();
   switch (filter) {
-    case 'invert': image.style.filter = `${filter}(${value}%)`;
+    case 'invert': image.style.filter = `${filter}(${valueEffect.value}%)`;
       break;
-    case 'blur' : image.style.filter = `${filter}(${value}px)`;
+    case 'blur' : image.style.filter = `${filter}(${valueEffect.value}px)`;
       break;
-    default: image.style.filter = `${filter}(${value})`;
+    default: image.style.filter = `${filter}(${valueEffect.value})`;
   }
 };
-
 
 const noEffect = () => {
   containerSlider.classList.add('hidden');
@@ -110,7 +111,6 @@ const heatEffects = () => {
     connect: 'lower',
   });
 };
-
 
 const renderEffect = (effect = 'effect-none') => {
   switch (effect) {
