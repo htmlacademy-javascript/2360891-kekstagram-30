@@ -26,8 +26,11 @@ const onUpScaleButtonClick = () => {
 };
 
 const getScaleValue = () => scale;
+const resetScale = () => {
+  scaleControl.value.value = '100%';
+};
 
 downScaleButton.addEventListener('click', onDownScaleButtonClick);
 upScaleButton.addEventListener('click', onUpScaleButtonClick);
 
-export {getScaleValue};
+export {getScaleValue, resetScale};

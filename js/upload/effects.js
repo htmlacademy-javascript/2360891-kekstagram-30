@@ -4,7 +4,6 @@ import '../../vendor/nouislider/nouislider.css';
 const uploadForm = document.querySelector('.img-upload__form');
 const containerSlider = uploadForm.querySelector('.img-upload__effect-level');
 const sliderElement = uploadForm.querySelector('.effect-level__slider');
-const image = uploadForm.querySelector('.img-upload__preview');
 const valueEffect = uploadForm.querySelector('.effect-level__value');
 
 let filter = 'none';
@@ -18,23 +17,6 @@ noUiSlider.create(sliderElement, {
   step: 0.1,
   connect: 'lower',
 });
-
-const changeEffectValue = () => {
-  containerSlider.classList.remove('hidden');
-  valueEffect.value = sliderElement.noUiSlider.get();
-  switch (filter) {
-    case 'invert': image.style.filter = `${filter}(${valueEffect.value}%)`;
-      break;
-    case 'blur' : image.style.filter = `${filter}(${valueEffect.value}px)`;
-      break;
-    default: image.style.filter = `${filter}(${valueEffect.value})`;
-  }
-};
-
-const noEffect = () => {
-  containerSlider.classList.add('hidden');
-  image.style.filter = '';
-};
 
 const chromeEffect = () => {
   filter = 'grayscale';
@@ -112,6 +94,10 @@ const heatEffects = () => {
   });
 };
 
+const noEffect = () => {
+  containerSlider.classList.add('hidden');
+};
+
 const renderEffect = (effect = 'effect-none') => {
   switch (effect) {
     case 'effect-none': noEffect();
@@ -128,4 +114,20 @@ const renderEffect = (effect = 'effect-none') => {
   }
 };
 
-export {renderEffect, changeEffectValue};
+const changeEffectValue = () => {
+  containerSlider.classList.remove('hidden');
+  valueEffect.value = sliderElement.noUiSlider.get();
+  valueEffect.dispatchEvent(new Event('change', {bubbles: true}));
+};
+
+sliderElement.noUiSlider.on('update', () => {
+  changeEffectValue();
+});
+
+const getEffectLevel = () => valueEffect.value;
+const getFilterType = () => filter;
+const resetEffect = () => noEffect();
+
+renderEffect();
+
+export {renderEffect, resetEffect, getEffectLevel, getFilterType};
