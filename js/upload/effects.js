@@ -1,133 +1,53 @@
 import '../../vendor/nouislider/nouislider.js';
 import '../../vendor/nouislider/nouislider.css';
 
-const uploadForm = document.querySelector('.img-upload__form');
-const containerSlider = uploadForm.querySelector('.img-upload__effect-level');
-const sliderElement = uploadForm.querySelector('.effect-level__slider');
-const valueEffect = uploadForm.querySelector('.effect-level__value');
+const container = document.querySelector('.effect-level');
+const sliderElement = document.querySelector('.effect-level__slider');
+const valueEffect = document.querySelector('.effect-level__value');
 
-let filter = 'none';
+const ranges = {
+  none: [0, 100, 1],
+  chrome: [0, 1, .1],
+  sepia: [0, 1, .1],
+  marvin: [0, 100, 1],
+  phobos: [0, 3, .1],
+  heat: [1, 3, .1]
+};
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 1,
-  },
-  start: 1,
-  step: 0.1,
-  connect: 'lower',
-});
+const formatters = {
+  none: () => '',
+  chrome: (value) => `grayscale(${value})`,
+  sepia: (value) => `sepia(${value})`,
+  marvin: (value) => `invert(${value}%)`,
+  phobos: (value) => `blur(${value}px)`,
+  heat: (value) => `brightness(${value})`
+};
 
-const chromeEffect = () => {
-  filter = 'grayscale';
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 1
-    },
-    start: 1,
-    step: 0.1,
+const createOptions = (type) => {
+  const [min, max, step] = ranges[type];
+  return {
+    range: {min, max},
+    step,
+    start: max,
+    format: {from: String, to: formatters[type]},
     connect: 'lower',
-  });
+    behaviour: 'snap smooth-steps'
+  };
 };
 
-const sepiaEffect = () => {
-  filter = 'sepia';
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 1
-    },
-    start: 1,
-    step: 0.1,
-    connect: 'lower',
-  });
+const slider = noUiSlider.create(sliderElement, createOptions('none'));
+
+const setEffect = (type) => {
+  container.classList.toggle('hidden', type === 'none');
+  slider.updateOptions(createOptions(type));
 };
 
-const marvinEffect = () => {
-  filter = 'invert';
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 100
-    },
-    start: 100,
-    step: 1,
-    connect: 'lower',
-    format: {
-      to: function (value) {
-        if (Number(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(0);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
-    },
-  });
-};
+const getEffectValue = () => slider.get();
+const resetEffect = () => setEffect('none');
 
-const phobosEffects = () => {
-  filter = 'blur';
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 3
-    },
-    start: 3,
-    step: 0.1,
-    connect: 'lower',
-  });
-};
-
-const heatEffects = () => {
-  filter = 'brightness';
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 1,
-      max: 3
-    },
-    start: 3,
-    step: 0.1,
-    connect: 'lower',
-  });
-};
-
-const noEffect = () => {
-  containerSlider.classList.add('hidden');
-};
-
-const renderEffect = (effect = 'effect-none') => {
-  switch (effect) {
-    case 'effect-none': noEffect();
-      break;
-    case 'effect-chrome': chromeEffect();
-      break;
-    case 'effect-sepia': sepiaEffect();
-      break;
-    case 'effect-marvin':marvinEffect();
-      break;
-    case 'effect-phobos': phobosEffects();
-      break;
-    case 'effect-heat': heatEffects();
-  }
-};
-
-const changeEffectValue = () => {
-  containerSlider.classList.remove('hidden');
-  valueEffect.value = sliderElement.noUiSlider.get();
+slider.on('update', () => {
+  valueEffect.value = slider.get(true);
   valueEffect.dispatchEvent(new Event('change', {bubbles: true}));
-};
-
-sliderElement.noUiSlider.on('update', () => {
-  changeEffectValue();
 });
 
-const getEffectLevel = () => valueEffect.value;
-const getFilterType = () => filter;
-const resetEffect = () => noEffect();
-
-renderEffect();
-
-export {renderEffect, resetEffect, getEffectLevel, getFilterType};
+export {setEffect, getEffectValue, resetEffect};

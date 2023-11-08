@@ -1,25 +1,13 @@
 import {openPopup} from '../upload/popup.js';
 import {validateForm, resetValidateForm } from './validation.js';
 import {getScaleValue, resetScale} from './scale.js';
-import {renderEffect, getEffectLevel, getFilterType, resetEffect} from'./effects.js';
+import {setEffect, getEffectValue, resetEffect} from'./effects.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const image = uploadForm.querySelector('.img-upload__preview');
 
 const scaleImage = () => {
   image.style.transform = `scale(${getScaleValue() / 100})`;
-};
-
-const changeFilterImage = () => {
-  const value = getEffectLevel();
-  const filter = getFilterType();
-  switch (filter) {
-    case 'invert': image.style.filter = `${filter}(${value}%)`;
-      break;
-    case 'blur' : image.style.filter = `${filter}(${value}px)`;
-      break;
-    default: image.style.filter = `${filter}(${value})`;
-  }
 };
 
 const resetImageScale = () => {
@@ -32,17 +20,16 @@ const resetImageFilter = () => {
 
 uploadForm.addEventListener('change', (event) => {
   switch (event.target.name) {
-    case 'filename': openPopup();
+    case 'filename':
+      openPopup();
       break;
     case 'effect':
-      if(event.target.id === 'effect-none') {
-        resetImageFilter();
-      }
-      renderEffect(event.target.id);
+      setEffect(event.target.value);
       break;
     case 'scale': scaleImage();
       break;
-    case 'effect-level': changeFilterImage();
+    case 'effect-level':
+      image.style.filter = getEffectValue();
       break;
   }
 });

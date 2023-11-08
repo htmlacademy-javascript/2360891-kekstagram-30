@@ -3,31 +3,32 @@ const scaleControl = uploadForm.querySelector('.scale__control--value');
 const downScaleButton = uploadForm.querySelector('.scale__control--smaller');
 const upScaleButton = uploadForm.querySelector('.scale__control--bigger');
 
-let scale = 100;
-const SCALE_STEP = 25;
+const config = {min: 25, max: 100, step: 25, defaultValue: 100};
 
-const renderScaleControl = () => {
-  scaleControl.value = `${scale}%`;
+const renderScaleControl = (value) => {
+  scaleControl.value = `${value}%`;
   scaleControl.dispatchEvent(new Event('change', {bubbles: true}));
 };
+const getScaleValue = () => Number.parseFloat(scaleControl.value);
 
 const onDownScaleButtonClick = () => {
-  if(scale > 25){
-    scale -= SCALE_STEP;
+  let value = getScaleValue();
+  if(value > config.min){
+    value -= config.step;
   }
-  renderScaleControl();
+  renderScaleControl(value);
 };
 
 const onUpScaleButtonClick = () => {
-  if(scale < 100){
-    scale += SCALE_STEP;
+  let value = getScaleValue();
+  if(value < config.max){
+    value += config.step;
   }
-  renderScaleControl();
+  renderScaleControl(value);
 };
 
-const getScaleValue = () => scale;
 const resetScale = () => {
-  scaleControl.value.value = '100%';
+  scaleControl.value = `${config.defaultValue}%`;
 };
 
 downScaleButton.addEventListener('click', onDownScaleButtonClick);
