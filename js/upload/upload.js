@@ -1,4 +1,4 @@
-import {openPopup} from '../upload/popup.js';
+import {openPopup, closePopup} from '../upload/popup.js';
 import {validateForm, resetValidateForm } from './validation.js';
 import {getScaleValue, resetScale} from './scale.js';
 import {setEffect, getEffectValue, resetEffect} from'./effects.js';
@@ -35,9 +35,21 @@ uploadForm.addEventListener('change', (event) => {
 });
 
 uploadForm.addEventListener('submit', (event) => {
-  if (!validateForm()){
-    event.preventDefault();
+  event.preventDefault();
+  if (validateForm()){
+    new FormData(uploadForm);
   }
+});
+
+document.addEventListener('closeStatus', (event) => {
+  if(event.detail === 'success') {
+    closePopup();
+    uploadForm.reset();
+  }
+});
+
+document.addEventListener('closePopup', () => {
+  uploadForm.reset();
 });
 
 uploadForm.addEventListener('reset', () => {
