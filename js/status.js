@@ -13,7 +13,6 @@ const renderStatus = (id) => {
     const button = document.querySelector(`.${id}__button`);
     statusElement.addEventListener('click', (event) => {
       if((event.target === statusElement) || (event.target === button)){
-        document.dispatchEvent(new CustomEvent('closeStatus', {detail: id}));
         statusElement.remove();
       }
     });

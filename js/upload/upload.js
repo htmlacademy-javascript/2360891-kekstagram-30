@@ -6,18 +6,6 @@ import {setEffect, getEffectValue, resetEffect} from'./effects.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const image = uploadForm.querySelector('.img-upload__preview');
 
-const scaleImage = () => {
-  image.style.transform = `scale(${getScaleValue() / 100})`;
-};
-
-const resetImageScale = () => {
-  image.style.transform = 'none';
-};
-
-const resetImageFilter = () => {
-  image.style.filter = 'none';
-};
-
 uploadForm.addEventListener('change', (event) => {
   switch (event.target.name) {
     case 'filename':
@@ -26,7 +14,8 @@ uploadForm.addEventListener('change', (event) => {
     case 'effect':
       setEffect(event.target.value);
       break;
-    case 'scale': scaleImage();
+    case 'scale':
+      image.style.transform = `scale(${getScaleValue() / 100})`;
       break;
     case 'effect-level':
       image.style.filter = getEffectValue();
@@ -48,14 +37,19 @@ document.addEventListener('closeStatus', (event) => {
   }
 });
 
-document.addEventListener('closePopup', () => {
+const resetForm = () => {
   uploadForm.reset();
+};
+
+document.addEventListener('closePopup', () => {
+  resetForm();
 });
 
 uploadForm.addEventListener('reset', () => {
   resetValidateForm();
+  image.style.transform = `scale(${getScaleValue() / 100})`;
   resetScale();
-  resetImageScale();
-  resetImageFilter();
   resetEffect();
 });
+
+export {closePopup, resetForm};
