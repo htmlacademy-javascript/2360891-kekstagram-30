@@ -11,11 +11,29 @@ const renderStatus = (id) => {
     }, ALERT_SHOW_TIME);
   }else {
     const button = document.querySelector(`.${id}__button`);
+
+    const onDocumentKeydown = (event) => {
+      if (event.key.startsWith('Esc')) {
+        event.stopPropagation();
+        button.click();
+      }
+    };
+
+    const closeStatusPopup = () => {
+      if(id === 'success'){
+        document.dispatchEvent(new CustomEvent('closeStatusPopup'));
+      }
+      document.removeEventListener('keydown', onDocumentKeydown, true);
+      statusElement.remove();
+    };
+
     statusElement.addEventListener('click', (event) => {
       if((event.target === statusElement) || (event.target === button)){
-        statusElement.remove();
+        closeStatusPopup();
       }
     });
+
+    document.addEventListener('keydown', onDocumentKeydown, true);
   }
 };
 

@@ -10,12 +10,15 @@ document.addEventListener('formdata', (event) => {
   request(SEND_URL, {method:'POST', body: event.formData})
     .then(() => {
       renderStatus('success');
-      resetForm();
-      closePopup();
     })
     .catch(() => {
       renderStatus('error');
     });
+});
+
+document.addEventListener('closeStatusPopup', () => {
+  resetForm();
+  closePopup();
 });
 
 request(PHOTOS_URL, {method:'GET'})
