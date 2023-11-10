@@ -24,7 +24,6 @@ const closePopup = () => {
 
 const onCloseButtonClick = () => {
   closePopup();
-  document.dispatchEvent(new CustomEvent('closePopup'));
 };
 
 closeButton.addEventListener('click', onCloseButtonClick);

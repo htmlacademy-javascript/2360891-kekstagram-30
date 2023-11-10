@@ -24,37 +24,22 @@ uploadForm.addEventListener('change', (event) => {
   }
 });
 
-const SubmitButtonText = {
-  IDLE: 'Опубликовать',
-  SENDING: 'Публикую...'
-};
-
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
-};
-
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
+const setSubmitDisabled = (flag) => {
+  submitButton.disabled = flag;
+  submitButton.textContent = flag ? 'Публикую...' : 'Опубликовать';
 };
 
 uploadForm.addEventListener('submit', (event) => {
   event.preventDefault();
   if (validateForm()){
-    blockSubmitButton();
     new FormData(uploadForm);
   }
 });
 
 const resetForm = () => {
   uploadForm.reset();
-  unblockSubmitButton();
+  closePopup();
 };
-
-document.addEventListener('closePopup', () => {
-  resetForm();
-});
 
 uploadForm.addEventListener('reset', () => {
   resetValidateForm();
@@ -62,4 +47,4 @@ uploadForm.addEventListener('reset', () => {
   resetEffect();
 });
 
-export {closePopup, resetForm, unblockSubmitButton};
+export {closePopup, resetForm, setSubmitDisabled};

@@ -1,39 +1,27 @@
-const ALERT_SHOW_TIME = 5000;
+const renderStatus = (type, options = {}) => {
+  const template = document.querySelector(`#${type}`);
+  const statusElement = template.content.querySelector(`.${type}`).cloneNode(true);
 
-const renderStatus = (id) => {
-  const template = document.querySelector(`#${id}`);
-  const statusElement = template.content.querySelector(`.${id}`).cloneNode(true);
+  const onDocumentKeydown = (event) => {
+    if (event.key.startsWith('Esc')) {
+      event.stopPropagation();
+      statusElement.click();
+    }
+  };
+
+  const onStatusElementClick = (event) => {
+    if (event.target.matches(`.${type}, .${type}__button`)){
+      statusElement.remove();
+    }
+  };
+
   document.body.append(statusElement);
 
-  if (id === 'data-error') {
-    setTimeout(() => {
-      statusElement.remove();
-    }, ALERT_SHOW_TIME);
-  }else {
-    const button = document.querySelector(`.${id}__button`);
-
-    const onDocumentKeydown = (event) => {
-      if (event.key.startsWith('Esc')) {
-        event.stopPropagation();
-        button.click();
-      }
-    };
-
-    const closeStatusPopup = () => {
-      if(id === 'success'){
-        document.dispatchEvent(new CustomEvent('closeStatusPopup'));
-      }
-      document.removeEventListener('keydown', onDocumentKeydown, true);
-      statusElement.remove();
-    };
-
-    statusElement.addEventListener('click', (event) => {
-      if((event.target === statusElement) || (event.target === button)){
-        closeStatusPopup();
-      }
-    });
-
+  if (options.autoHide) {
+    setTimeout(() => statusElement.remove(), options.autoHide);
+  } else {
     document.addEventListener('keydown', onDocumentKeydown, true);
+    statusElement.addEventListener('click', onStatusElementClick);
   }
 };
 

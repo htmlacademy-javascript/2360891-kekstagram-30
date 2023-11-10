@@ -1,28 +1,24 @@
 import {renderGallery} from './gallery/gallery.js';
 import {request} from './utilities.js';
-import {closePopup, resetForm, unblockSubmitButton} from'./upload/upload.js';
+import {resetForm, setSubmitDisabled} from'./upload/upload.js';
 import {renderStatus} from './status.js';
 
-const PHOTOS_URL = 'https://30.javascript.pages.academy/kekstagram/data';
-const SEND_URL = 'https://30.javascript.pages.academy/kekstagram/';
+const baseUrl = 'https://30.javascript.pages.academy/kekstagram';
 
-document.addEventListener('formdata', (event) => {
-  request(SEND_URL, {method:'POST', body: event.formData})
-    .then(() => {
-      renderStatus('success');
-    })
-    .catch(() => {
-      renderStatus('error');
-      unblockSubmitButton();
-    });
+document.addEventListener('formdata', async (event) => {
+  try {
+    setSubmitDisabled(true);
+    await request(baseUrl, {method:'POST', body: event.formData});
+    resetForm();
+    renderStatus('success');
+  } catch (error) {
+    renderStatus('error');
+  } finally {
+    setSubmitDisabled(false);
+  }
 });
 
-document.addEventListener('closeStatusPopup', () => {
-  resetForm();
-  closePopup();
-});
-
-request(PHOTOS_URL, {method:'GET'})
+request((`${baseUrl}/data`), {method:'GET'})
   .then((data) => renderGallery(data))
-  .catch(() => renderStatus('data-error'));
+  .catch(() => renderStatus('data-error', {autoHide: 5000}));
 
