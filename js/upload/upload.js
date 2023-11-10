@@ -1,10 +1,11 @@
 import {openPopup, closePopup} from '../upload/popup.js';
 import {validateForm, resetValidateForm } from './validation.js';
-import {getScaleValue, resetScale} from './scale.js';
+import {getScaleValue, renderScaleControl} from './scale.js';
 import {setEffect, getEffectValue, resetEffect} from'./effects.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const image = uploadForm.querySelector('.img-upload__preview');
+const submitButton = uploadForm.querySelector('.img-upload__submit');
 
 uploadForm.addEventListener('change', (event) => {
   switch (event.target.name) {
@@ -23,22 +24,32 @@ uploadForm.addEventListener('change', (event) => {
   }
 });
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
 uploadForm.addEventListener('submit', (event) => {
   event.preventDefault();
   if (validateForm()){
+    blockSubmitButton();
     new FormData(uploadForm);
-  }
-});
-
-document.addEventListener('closeStatus', (event) => {
-  if(event.detail === 'success') {
-    closePopup();
-    uploadForm.reset();
   }
 });
 
 const resetForm = () => {
   uploadForm.reset();
+  unblockSubmitButton();
 };
 
 document.addEventListener('closePopup', () => {
@@ -47,9 +58,8 @@ document.addEventListener('closePopup', () => {
 
 uploadForm.addEventListener('reset', () => {
   resetValidateForm();
-  image.style.transform = `scale(${getScaleValue() / 100})`;
-  resetScale();
+  renderScaleControl();
   resetEffect();
 });
 
-export {closePopup, resetForm};
+export {closePopup, resetForm, unblockSubmitButton};

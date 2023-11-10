@@ -5,7 +5,7 @@ const upScaleButton = uploadForm.querySelector('.scale__control--bigger');
 
 const config = {min: 25, max: 100, step: 25, defaultValue: 100};
 
-const renderScaleControl = (value) => {
+const renderScaleControl = (value = config.defaultValue) => {
   scaleControl.value = `${value}%`;
   scaleControl.dispatchEvent(new Event('change', {bubbles: true}));
 };
@@ -27,11 +27,7 @@ const onUpScaleButtonClick = () => {
   renderScaleControl(value);
 };
 
-const resetScale = () => {
-  scaleControl.value = `${config.defaultValue}%`;
-};
-
 downScaleButton.addEventListener('click', onDownScaleButtonClick);
 upScaleButton.addEventListener('click', onUpScaleButtonClick);
 
-export {getScaleValue, resetScale};
+export {getScaleValue, renderScaleControl};

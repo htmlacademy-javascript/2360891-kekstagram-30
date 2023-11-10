@@ -1,6 +1,6 @@
 import {renderGallery} from './gallery/gallery.js';
 import {request} from './utilities.js';
-import {closePopup, resetForm} from'./upload/upload.js';
+import {closePopup, resetForm, unblockSubmitButton} from'./upload/upload.js';
 import {renderStatus} from './status.js';
 
 const PHOTOS_URL = 'https://30.javascript.pages.academy/kekstagram/data';
@@ -13,6 +13,7 @@ document.addEventListener('formdata', (event) => {
     })
     .catch(() => {
       renderStatus('error');
+      unblockSubmitButton();
     });
 });
 
