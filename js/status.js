@@ -1,27 +1,28 @@
 const renderStatus = (type, options = {}) => {
   const template = document.querySelector(`#${type}`);
-  const statusElement = template.content.querySelector(`.${type}`).cloneNode(true);
+  const status = template.content.querySelector(`.${type}`).cloneNode(true);
 
   const onDocumentKeydown = (event) => {
     if (event.key.startsWith('Esc')) {
       event.stopPropagation();
-      statusElement.click();
+      status.click();
     }
   };
 
-  const onStatusElementClick = (event) => {
+  const onStatusClick = (event) => {
     if (event.target.matches(`.${type}, .${type}__button`)){
-      statusElement.remove();
+      status.remove();
+      document.removeEventListener('keydown', onDocumentKeydown, true);
     }
   };
 
-  document.body.append(statusElement);
+  document.body.append(status);
 
   if (options.autoHide) {
-    setTimeout(() => statusElement.remove(), options.autoHide);
+    setTimeout(() => status.remove(), options.autoHide);
   } else {
     document.addEventListener('keydown', onDocumentKeydown, true);
-    statusElement.addEventListener('click', onStatusElementClick);
+    status.addEventListener('click', onStatusClick);
   }
 };
 

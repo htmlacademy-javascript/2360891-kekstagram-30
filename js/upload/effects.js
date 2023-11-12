@@ -2,7 +2,7 @@ import '../../vendor/nouislider/nouislider.js';
 import '../../vendor/nouislider/nouislider.css';
 
 const container = document.querySelector('.effect-level');
-const sliderElement = document.querySelector('.effect-level__slider');
+const placeholder = document.querySelector('.effect-level__slider');
 const valueEffect = document.querySelector('.effect-level__value');
 
 const ranges = {
@@ -35,7 +35,7 @@ const createOptions = (type) => {
   };
 };
 
-const slider = noUiSlider.create(sliderElement, createOptions('none'));
+const slider = noUiSlider.create(placeholder, createOptions('none'));
 
 const setEffect = (type) => {
   container.classList.toggle('hidden', type === 'none');
