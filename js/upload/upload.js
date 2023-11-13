@@ -1,22 +1,11 @@
-import {openPopup} from '../upload/popup.js';
+import {openPopup, closePopup} from '../upload/popup.js';
 import {validateForm, resetValidateForm } from './validation.js';
-import {getScaleValue, resetScale} from './scale.js';
+import {getScaleValue, renderScaleControl} from './scale.js';
 import {setEffect, getEffectValue, resetEffect} from'./effects.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const image = uploadForm.querySelector('.img-upload__preview');
-
-const scaleImage = () => {
-  image.style.transform = `scale(${getScaleValue() / 100})`;
-};
-
-const resetImageScale = () => {
-  image.style.transform = 'none';
-};
-
-const resetImageFilter = () => {
-  image.style.filter = 'none';
-};
+const submitButton = uploadForm.querySelector('.img-upload__submit');
 
 uploadForm.addEventListener('change', (event) => {
   switch (event.target.name) {
@@ -26,7 +15,8 @@ uploadForm.addEventListener('change', (event) => {
     case 'effect':
       setEffect(event.target.value);
       break;
-    case 'scale': scaleImage();
+    case 'scale':
+      image.style.transform = `scale(${getScaleValue() / 100})`;
       break;
     case 'effect-level':
       image.style.filter = getEffectValue();
@@ -34,16 +24,27 @@ uploadForm.addEventListener('change', (event) => {
   }
 });
 
+const setSubmitDisabled = (flag) => {
+  submitButton.disabled = flag;
+  submitButton.textContent = flag ? 'Публикую...' : 'Опубликовать';
+};
+
 uploadForm.addEventListener('submit', (event) => {
-  if (!validateForm()){
-    event.preventDefault();
+  event.preventDefault();
+  if (validateForm()){
+    new FormData(uploadForm);
   }
 });
 
+const resetForm = () => {
+  uploadForm.reset();
+  closePopup();
+};
+
 uploadForm.addEventListener('reset', () => {
   resetValidateForm();
-  resetScale();
-  resetImageScale();
-  resetImageFilter();
+  renderScaleControl();
   resetEffect();
 });
+
+export {closePopup, resetForm, setSubmitDisabled};
