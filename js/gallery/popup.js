@@ -21,8 +21,6 @@ const onkCloseButtonClick = () => {
   closePopup();
 };
 
-closeButton.addEventListener('click', onkCloseButtonClick);
-
 const openPopup = () => {
   popup.classList.remove('hidden');
   popup.scroll(0, 0);
@@ -38,5 +36,7 @@ const renderPopup = (properties) => {
   renderComments(comments);
   openPopup();
 };
+
+closeButton.addEventListener('click', onkCloseButtonClick);
 
 export {renderPopup};
