@@ -1,9 +1,10 @@
 import {renderGallery} from './gallery/gallery.js';
-import {request} from './utilities.js';
+import {request, debounce} from './utilities.js';
 import {resetForm, setSubmitDisabled} from'./upload/upload.js';
 import {renderStatus} from './status.js';
 
 const baseUrl = 'https://30.javascript.pages.academy/kekstagram';
+const filters = document.querySelector('.img-filters');
 
 document.addEventListener('formdata', async (event) => {
   try {
@@ -18,7 +19,12 @@ document.addEventListener('formdata', async (event) => {
   }
 });
 
-request((`${baseUrl}/data`), {method:'GET'})
-  .then((data) => renderGallery(data))
-  .catch(() => renderStatus('data-error', {autoHide: 5000}));
+const requestPicturesData = () => {
+  request((`${baseUrl}/data`), {method:'GET'})
+    .then((data) => renderGallery(data))
+    .catch(() => renderStatus('data-error', {autoHide: 5000}));
+};
 
+filters.addEventListener('filter', debounce(() => requestPicturesData()));
+
+requestPicturesData();

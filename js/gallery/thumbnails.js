@@ -1,3 +1,6 @@
+import {getTypeFilter, renderFilters} from './filters';
+import {getRandomPictures} from '../utilities';
+
 const container = document.querySelector('.pictures');
 const template = document.querySelector('#picture');
 
@@ -18,9 +21,21 @@ const createThumbnails = (picturesData) => picturesData.map((properties) => {
   return thumbnail;
 });
 
-const renderThumbnails = (picturesData) => {
-  container.querySelectorAll('.picture').forEach((thumbnail) => thumbnail.remove());
-  container.append(...createThumbnails(picturesData));
+const filter = (pictures, typeFilter) => {
+  switch (typeFilter) {
+    case 'filter-default':
+      return pictures;
+    case 'filter-random':
+      return getRandomPictures(pictures, 10);
+    case 'filter-discussed':
+      return pictures.slice().sort((a, b) => b.likes - a.likes);
+  }
 };
 
-export {renderThumbnails};
+const renderThumbnails = (picturesData) => {
+  container.querySelectorAll('.picture').forEach((thumbnail) => thumbnail.remove());
+  container.append(...createThumbnails(filter(picturesData, getTypeFilter())));
+  renderFilters();
+};
+
+export {renderThumbnails, filter};
