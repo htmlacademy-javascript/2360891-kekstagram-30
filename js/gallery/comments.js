@@ -4,6 +4,7 @@ const template = comments.querySelector('.social__comment');
 const loaderButton = container.querySelector('.comments-loader');
 const showCount = container.querySelector('.social__comment-shown-count');
 const count = container.querySelector('.social__comment-total-count');
+const currentCommentsData = [];
 
 const createComments = (dataComments) => dataComments.map((data) => {
   const {avatar, message, name} = data;
@@ -14,8 +15,6 @@ const createComments = (dataComments) => dataComments.map((data) => {
 
   return item;
 });
-
-const currentCommentsData = [];
 
 const onLoaderButtonClick = () => {
   comments.append(...createComments(currentCommentsData.splice(0, currentCommentsData.step)));

@@ -1,7 +1,9 @@
 import {renderThumbnails} from './thumbnails.js';
 import {renderPopup} from './popup.js';
 import {renderFilters} from './filters';
-import {getRandomPictures} from '../utilities.js';
+import {shuffleItems} from '../utilities.js';
+
+const PICTURES_LIMIT = 10;
 
 const renderGallery = (createPictureData, reduceFrequency) => {
   renderFilters();
@@ -14,7 +16,7 @@ const renderGallery = (createPictureData, reduceFrequency) => {
       case 'filter-default':
         return renderThumbnails(createPictureData);
       case 'filter-random':
-        return renderThumbnails(getRandomPictures(createPictureData, 10));
+        return renderThumbnails(shuffleItems(createPictureData, PICTURES_LIMIT));
       case 'filter-discussed':
         return renderThumbnails(createPictureData
           .slice()

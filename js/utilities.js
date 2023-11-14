@@ -1,3 +1,5 @@
+const DEFAULT_DELAY = 500;
+
 const request = async (url, options) => {
   const response = await fetch(url, options);
   if(!response.ok) {
@@ -6,8 +8,7 @@ const request = async (url, options) => {
   return response.json();
 };
 
-
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = DEFAULT_DELAY) => {
   let timeoutId;
 
   return (...rest) => {
@@ -23,12 +24,12 @@ const getRandomItem = (items) => {
   return items[index];
 };
 
-const getRandomPictures = (pictures, items = 10) => {
-  const randomPictures = new Set();
-  while (randomPictures.size < items) {
-    randomPictures.add(getRandomItem(pictures));
+const shuffleItems = (items, limit) => {
+  const randomItems = new Set();
+  while (randomItems.size < limit) {
+    randomItems.add(getRandomItem(items));
   }
-  return [...randomPictures];
+  return [...randomItems];
 };
 
-export {request, debounce, getRandomPictures};
+export {request, debounce, shuffleItems};
