@@ -11,6 +11,7 @@ const renderGallery = (createPictureData, reduceFrequency) => {
   document.addEventListener('thumbnailSelect', (event) => {
     renderPopup(event.detail);
   });
+
   document.addEventListener('filterSelect', reduceFrequency((event) => {
     switch (event.detail) {
       case 'filter-default':
