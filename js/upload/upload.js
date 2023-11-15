@@ -4,7 +4,6 @@ import {getScaleValue, renderScaleControl} from './scale.js';
 import {setEffect, getEffectValue, resetEffect} from'./effects.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
-const image = uploadForm.querySelector('.img-upload__preview');
 const previewImage = uploadForm.querySelector('.img-upload__preview img');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
 const effectsPreview = uploadForm.querySelectorAll('.effects__preview');
@@ -29,10 +28,10 @@ uploadForm.addEventListener('change', (event) => {
       setEffect(event.target.value);
       break;
     case 'scale':
-      image.style.transform = `scale(${getScaleValue() / 100})`;
+      previewImage.style.transform = `scale(${getScaleValue() / 100})`;
       break;
     case 'effect-level':
-      image.style.filter = getEffectValue();
+      previewImage.style.filter = getEffectValue();
       break;
   }
 });
